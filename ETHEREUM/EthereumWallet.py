@@ -37,7 +37,7 @@ def clear_console():
     else:
         os.system("clear")
 
-if __name__ == "__main__": # 이 구문 이해못함 
+if __name__ == "__main__": 
    
     while True:
         clear_console()
