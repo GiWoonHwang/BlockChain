@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ArTo_Server</title>
+    <link rel="stylesheet" href="server.css" />
+  </head>
+  <body>
+    <div class="server">
+
+      <header>
+        <div class="header_title">
+          <a href="http://52.78.25.173:8080/homepage">ArTo</a>
+        </div>
+
+        <div class="search">
+          <form method="POST" class="loginBox">
+            <select name="list" >
+              <option value="user" label="검색 목록" disabled selected></option>
+              <option value="userName" >사용자</option>
+              <option value="userEmail">회원이메일</option>
+            </select>
+            <input type="text" class="input" placeholder="검색어입력" name="search" />
+            <input type="submit" class="sub" value="검색" />
+          </form>
+          <form method="POST" class="loginBox">
+            <input type="date" class="dateDefault" name="signupDate_1"/>
+            <span style="color: white; font-size: 20px;">~</span>
+            <input type="date" class="dateDefault" name="signupDate_2"/>
+            <input type="submit" class="sub" value="검색" />
+          </form>
+        </div>
+
+        <div class="header_menu">
+          <a href="http://52.78.25.173:8080/serverpage?list=user"><div>DID발급 회원</div></a>
+          <a href="http://52.78.25.173:8080/serverpage?list=scanner"><div>인증내역</div></a>
+          <a href="http://52.78.25.173:8080/serverpage?list=toilet"><div>화장실 정보</div></a>
+        </div>
+      </header>
+
+
+      <main>
+        <table width="100%">
+          <tr>
+            <th>NO</th>
+            <th>사용자</th>
+            <th>회원이메일</th>
+            <th>생성일시</th>
+            <th>DID상태</th>
+          </tr>
+          <% data.forEach(function(item, index) { %>
+            <% 
+
+            var resultDate = item.DATE
+            var month = (resultDate.getMonth()+1)
+            if(month.toString().length==1){
+                month = "0"+month
+            }
+            var day = resultDate.getDate();
+            if(day.toString().length==1){
+                day = "0"+day
+            }
+            var Date = resultDate.getFullYear()+'-'+month+'-'+day+'  '+item.DATE.getHours()+':'+item.DATE.getMinutes()+':'+item.DATE.getSeconds();
+
+
+            var namemasking
+            const maskingName = (strName)=> {
+              if (strName.length > 2) {
+                var originName = strName.split('');
+                originName.forEach(function(name, i) {
+                  if (i == 0 || i == originName.length - 1) return;
+                  originName[i] = '*';
+                });
+                var joinName = originName.join();
+                namemasking=joinName.replace(/,/g, '');
+              } else {
+                var pattern = /.$/; // 정규식
+                namemasking =strName.replace(pattern, '*');
+              }
+            };
+            maskingName(item.name)
+            %>
+            <%
+            var emailmasking
+            const maskingEmail = (strEmail)=> {
+              var originName = strEmail.split('');
+              var index = 0 //초기 0
+              originName.forEach(function(name, i) {
+                if ( name=="@" ){
+                  originName[i] = '\n@';
+                  index = i
+                }
+              });
+              originName.forEach(function(name, i) {
+                if(i+4>index && i< index){
+                  originName[i] = '*';      
+                }
+              });
+              var joinName = originName.join();
+              emailmasking=joinName.replace(/,/g, '')
+            };
+            maskingEmail(item.email)
+            %>
+            <tr>
+              <td><%= index+1 %></td>
+              <td><%= namemasking %></td>
+              <td><%= emailmasking %></td>
+              <td><%= Date %></td>
+              <td>발급</td>
+            </tr>
+          <% }); %>
+        </table>
+      </main>
+
+
+
+    </div>
+    <script>
+      function setInputDate(_id){
+    var _dat = document.getElementsByClassName(_id);
+
+    var hoy = new Date(),
+        d = hoy.getDate(),
+        m = hoy.getMonth()+1, 
+        y = hoy.getFullYear(),
+        data;
+
+    if(d < 10){
+        d = "0"+d;
+    };
+    if(m < 10){
+        m = "0"+m;
+    };
+
+    data = y+"-"+m+"-"+d;
+    console.log(data);
+    _dat[0].value = data;
+    _dat[0].max = data;
+    _dat[1].value = data;
+    _dat[1].max = data;
+};
+
+setInputDate("dateDefault");
+    </script>
+  </body>
+</html>

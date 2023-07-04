@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ArTo_Server</title>
+    <link rel="stylesheet" href="server.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="server">
+
+      <header style="align-items: center">
+        <div class="header_title">
+          <a href="http://52.78.25.173:8080/homepage">ArTo</a>
+        </div>
+
+        <div class="search">
+          <form method="POST" class="loginBox">
+            <select name="list" >
+              <option value="user" label="검색 목록" disabled selected></option>
+              <option value="toilettype" >타입</option>
+              <option value="toiletName" >이름</option>
+              <option value="toiletAdrres">주소</option>
+            </select>
+            <input type="text" class="input" placeholder="검색어입력" name="search" />
+            <input type="submit" class="sub" value="검색" />
+          </form>
+        </div>
+
+        <div class="header_menu">
+          <a href="http://52.78.25.173:8080/serverpage?list=user"><div>DID발급 회원</div></a>
+          <a href="http://52.78.25.173:8080/serverpage?list=scanner"><div>인증내역</div></a>
+          <a href="http://52.78.25.173:8080/serverpage?list=toilet"><div>화장실 정보</div></a>
+        </div>
+      </header>
+
+      <div class="icon">
+        <form method="POST">
+          <input type="hidden" name="toilet" value="toilet">
+          <button type="submit"><i class="fas fa-sync-alt"></i></button>
+        </form>
+        </div>
+      <main>
+        <table width="100%">
+          <tr>
+            <th>NO</th>
+            <th>타입</th>
+            <th>이름</th>
+            <th>주소</th>
+            <th>전화번호</th>
+          </tr>
+          <% data.forEach(function(item, index) { %>
+            <tr>
+              <td><%= item.NO %></td>
+              <td><%= item.type %></td>
+              <td><%= item.name %></td>
+              <td><%= item.address %></td>
+              <td><%= item.phone %></td>
+            </tr>
+          <% }); %>
+        </table>
+      </main>
+
+
+
+    </div>
+  </body>
+</html>
